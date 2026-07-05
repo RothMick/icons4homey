@@ -2,7 +2,7 @@
 
 Custom SVG Icons Collection
 
-## 👁️ Preview
+## Preview
 
 [**View Icon Preview →**](https://htmlpreview.github.io/?https://github.com/RothMick/icons4homey/blob/main/index.html)
 
