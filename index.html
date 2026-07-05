@@ -150,20 +150,25 @@
         const totalCount = document.getElementById('totalCount');
 
         const icons = [
-            'sun-moon.svg',
+            'awtrix03.svg',
+            'gardena_swc_old.svg',
             'garbage_01.svg',
             'garbage_02.svg',
             'garbage_03.svg',
             'garbage_04.svg',
             'garbage_05.svg',
-            'sun-moon02.svg',
-            'awtrix03.svg',
-            'nas2bay.svg',
             'marstek_b2500.svg',
-            'gardena_swc_old.svg'
+            'nas2bay.svg',
+            'sun-moon.svg',
+            'sun-moon02.svg'
         ];
 
+        let rendered = false;
+
         function renderIcons() {
+            if (rendered) return;
+            rendered = true;
+
             iconGrid.innerHTML = '';
 
             icons.forEach(icon => {
