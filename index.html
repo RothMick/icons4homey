@@ -164,6 +164,8 @@
         ];
 
         function renderIcons() {
+            if (iconGrid.children.length > 0) return;
+
             icons.forEach(icon => {
                 const card = document.createElement('div');
                 card.className = 'icon-card';
