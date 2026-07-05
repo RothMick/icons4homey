@@ -1,0 +1,15 @@
+<svg width="960" height="960" viewBox="0 0 960 960" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="632.255" cy="367.867" r="56.2604" stroke="black" stroke-width="20"/>
+<circle cx="736.105" cy="466.621" r="35.2355" stroke="black" stroke-width="20"/>
+<circle cx="631.618" cy="624.626" r="35.2355" stroke="black" stroke-width="20"/>
+<path d="M565.994 20L565.994 123.213" stroke="black" stroke-width="40" stroke-linecap="round"/>
+<path d="M565.994 836.787L565.994 940" stroke="black" stroke-width="40" stroke-linecap="round"/>
+<path d="M167.625 250.005L257.01 301.612" stroke="black" stroke-width="40" stroke-linecap="round"/>
+<path d="M335.995 81.6318L387.601 171.017" stroke="black" stroke-width="40" stroke-linecap="round"/>
+<path d="M335.995 81.6318L387.601 171.017" stroke="black" stroke-width="40" stroke-linecap="round"/>
+<path d="M257.01 658.39L167.625 709.996" stroke="black" stroke-width="40" stroke-linecap="round"/>
+<path d="M387.601 788.983L335.995 878.369" stroke="black" stroke-width="40" stroke-linecap="round"/>
+<path d="M209.213 479.994L106 479.994" stroke="black" stroke-width="40" stroke-linecap="round"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M540.51 233.707C415.743 246.464 318.405 351.865 318.404 480.001C318.404 608.137 415.742 713.537 540.51 726.295V766.478C393.615 753.579 278.404 630.245 278.404 480.001C278.405 329.758 393.615 206.423 540.51 193.525V233.707Z" fill="black"/>
+<path d="M591.479 726.294C716.246 713.537 813.585 608.136 813.585 480C813.585 351.864 716.246 246.463 591.479 233.706L591.479 193.523C738.373 206.421 853.585 329.756 853.585 480C853.585 630.244 738.373 753.578 591.479 766.476L591.479 726.294Z" fill="black"/>
+</svg>

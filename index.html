@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>icons4homey - Icon Preview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            font-size: 2.5rem;
+        }
+
+        .subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 1rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .icon-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid #ddd;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .icon-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .icon-preview {
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            background: #f5f5f5;
+            border-radius: 8px;
+            overflow: auto;
+        }
+
+        .icon-preview img,
+        .icon-preview svg {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+        }
+
+        .icon-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #333;
+            text-align: center;
+            word-break: break-word;
+            margin-bottom: 0.5rem;
+        }
+
+        .icon-size {
+            font-size: 0.8rem;
+            color: #999;
+            text-align: center;
+        }
+
+        .stats {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .stats p {
+            margin: 0.25rem 0;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 1rem;
+            }
+
+            .icon-preview {
+                width: 90px;
+                height: 90px;
+            }
+
+            .icon-name {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>icons4homey</h1>
+        <p class="subtitle">Custom SVG Icons Collection</p>
+
+        <div class="grid" id="iconGrid"></div>
+
+        <div class="stats">
+            <p><strong id="totalCount">0</strong> Icons</p>
+        </div>
+    </div>
+
+    <script>
+        const iconGrid = document.getElementById('iconGrid');
+        const totalCount = document.getElementById('totalCount');
+
+        const icons = [
+            'sun-moon.svg',
+            'garbage_01.svg',
+            'garbage_02.svg',
+            'garbage_03.svg',
+            'garbage_04.svg',
+            'garbage_05.svg',
+            'sun-moon02.svg',
+            'awtrix03.svg',
+            'nas2bay.svg',
+            'marstek_b2500.svg',
+            'gardena_swc_old.svg'
+        ];
+
+        function renderIcons() {
+            icons.forEach(icon => {
+                const card = document.createElement('div');
+                card.className = 'icon-card';
+                card.innerHTML = `
+                    <div class="icon-preview">
+                        <img src="${icon}" alt="${icon}" loading="lazy">
+                    </div>
+                    <div class="icon-name">${icon}</div>
+                    <div class="icon-size">SVG</div>
+                `;
+                iconGrid.appendChild(card);
+            });
+
+            totalCount.textContent = icons.length;
+        }
+
+        document.addEventListener('DOMContentLoaded', renderIcons);
+    </script>
+</body>
+</html>
