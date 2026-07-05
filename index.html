@@ -164,7 +164,7 @@
         ];
 
         function renderIcons() {
-            if (iconGrid.children.length > 0) return;
+            iconGrid.innerHTML = '';
 
             icons.forEach(icon => {
                 const card = document.createElement('div');
@@ -182,7 +182,11 @@
             totalCount.textContent = icons.length;
         }
 
-        document.addEventListener('DOMContentLoaded', renderIcons);
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', renderIcons);
+        } else {
+            renderIcons();
+        }
     </script>
 </body>
 </html>
