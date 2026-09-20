@@ -14,8 +14,11 @@ Klick den Link um alle Icons in einer interaktiven Vorschau zu sehen.
 - Garbage collection
 - Awtrix
 - NAS devices
-- Marstek B2500
 - Gardena devices
+- Marstek B2500
+- Marstek Jupiter C / C+ / C++
+- Marstek Venus D / D+ / D++
+- Marstek Venus E
 
 ## GitHub Pages
 

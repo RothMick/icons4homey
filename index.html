@@ -151,13 +151,20 @@
 
         const icons = [
             'awtrix03.svg',
-            'gardena_swc_old.svg',
             'garbage_01.svg',
             'garbage_02.svg',
             'garbage_03.svg',
             'garbage_04.svg',
             'garbage_05.svg',
+            'gardena_swc_old.svg',
             'marstek_b2500.svg',
+            'marstek_jupiter_c.svg',
+            'marstek_jupiter_c+.svg',
+            'marstek_jupiter_c++.svg',
+            'marstek_venus_d.svg',
+            'marstek_venus_d+.svg',
+            'marstek_venus_d++.svg',
+            'marstek_venus_e.svg',
             'nas2bay.svg',
             'sun-moon.svg',
             'sun-moon02.svg'
@@ -176,7 +183,7 @@
                 card.className = 'icon-card';
                 card.innerHTML = `
                     <div class="icon-preview">
-                        <img src="${icon}" alt="${icon}" loading="lazy">
+                        <img src="${encodeURIComponent(icon)}" alt="${icon}" loading="lazy">
                     </div>
                     <div class="icon-name">${icon}</div>
                     <div class="icon-size">SVG</div>
