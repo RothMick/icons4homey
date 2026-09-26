@@ -22,6 +22,7 @@
             --text-muted: #666666;
             --text-faint: #999999;
             --icon: #000000;
+            --icon-accent: #1fc855;
             --shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.3);
         }
@@ -37,6 +38,7 @@
                 --text-muted: #a8adb6;
                 --text-faint: #7d838d;
                 --icon: #f0f2f5;
+                --icon-accent: #33e06a;
                 --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
                 --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.65);
             }
@@ -52,6 +54,7 @@
             --text-muted: #a8adb6;
             --text-faint: #7d838d;
             --icon: #f0f2f5;
+            --icon-accent: #33e06a;
             --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.65);
         }
@@ -178,6 +181,7 @@
             padding: 6px;
             background: var(--tile-bg);
             border-radius: 8px;
+            /* Die SVGs lesen currentColor und var(--icon-accent) selbst */
             color: var(--icon);
         }
 
@@ -340,25 +344,6 @@
 
         /* ---------- Icons ---------- */
 
-        const BLACK = new Set(['#000', '#000000', 'black']);
-        // In <mask>/<clipPath>/<filter> ist Weiss die Maske selbst, kein Motiv
-        const SKIP_SUBTREE = new Set(['mask', 'clippath', 'filter', 'pattern', 'marker']);
-
-        function recolor(el) {
-            for (const attr of ['fill', 'stroke']) {
-                const value = el.getAttribute(attr);
-                if (!value) continue;
-                if (BLACK.has(value.trim().toLowerCase())) {
-                    // Inline-Style statt Attribut: schlaegt das Praesentationsattribut sicher
-                    el.style.setProperty(attr, 'currentColor');
-                }
-            }
-            for (const child of el.children) {
-                if (SKIP_SUBTREE.has(child.nodeName.toLowerCase())) continue;
-                recolor(child);
-            }
-        }
-
         // IDs pro Icon eindeutig machen, sonst greifen url(#...)-Referenzen
         // beim Inlining auf die gleichnamige ID des zuerst geladenen Icons
         function namespaceIds(svg, prefix) {
@@ -399,7 +384,6 @@
             svg.setAttribute('role', 'img');
             svg.setAttribute('aria-label', file);
             namespaceIds(svg, 'i' + index);
-            recolor(svg);
             preview.replaceChildren(svg);
         }
 

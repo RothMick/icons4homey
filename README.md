@@ -20,6 +20,31 @@ Klick den Link um alle Icons in einer interaktiven Vorschau zu sehen.
 - Marstek Venus D / D+ / D++
 - Marstek Venus E
 
+## Farben
+
+Die Icons sind einfarbig ueber `currentColor` aufgebaut und uebernehmen damit die
+Textfarbe ihrer Umgebung:
+
+```html
+<span style="color: #fff">
+  <!-- SVG hier inline einbinden, nicht per <img> -->
+</span>
+```
+
+Wichtig: Das funktioniert nur bei **inline eingebundenem** SVG. Ein per `<img src>`
+geladenes SVG ist ein eigenes Dokument, in das kein CSS von aussen hineinreicht --
+dort bleibt das Icon schwarz.
+
+Die Marstek-Icons haben zusaetzlich einen gruenen Akzent (Fuellstands- bzw.
+Statusstrich). Der laesst sich ueber eine CSS-Variable umfaerben:
+
+```css
+.mein-icon { --icon-accent: #ff9800; }
+```
+
+Ohne gesetzte Variable bleibt es bei `#1FC855`. Standalone geoeffnet rendern alle
+Icons unveraendert schwarz mit gruenem Akzent.
+
 ## GitHub Pages
 
 Um GitHub Pages zu aktivieren und die Preview unter einer eigenen Domain zu hosten:
