@@ -1,10 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>icons4homey - Icon Preview</title>
+    <script>
+        // Vor dem ersten Paint, damit kein heller Blitz im Dunkelmodus entsteht
+        try {
+            var t = localStorage.getItem('icons4homey-theme');
+            if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+        } catch (e) {}
+    </script>
     <style>
+        :root {
+            color-scheme: light;
+            --bg: #f5f5f5;
+            --card-bg: #ffffff;
+            --tile-bg: #f5f5f5;
+            --border: #dddddd;
+            --text: #333333;
+            --text-muted: #666666;
+            --text-faint: #999999;
+            --icon: #000000;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) {
+                color-scheme: dark;
+                --bg: #16181c;
+                --card-bg: #21242a;
+                --tile-bg: #2b2f36;
+                --border: #363b44;
+                --text: #e8eaed;
+                --text-muted: #a8adb6;
+                --text-faint: #7d838d;
+                --icon: #f0f2f5;
+                --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+                --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.65);
+            }
+        }
+
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+            --bg: #16181c;
+            --card-bg: #21242a;
+            --tile-bg: #2b2f36;
+            --border: #363b44;
+            --text: #e8eaed;
+            --text-muted: #a8adb6;
+            --text-faint: #7d838d;
+            --icon: #f0f2f5;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.65);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,9 +64,11 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #f5f5f5;
+            background: var(--bg);
+            color: var(--text);
             min-height: 100vh;
-            padding: 2rem;
+            padding: 2rem 1rem;
+            transition: background-color 0.2s ease, color 0.2s ease;
         }
 
         .container {
@@ -24,17 +77,70 @@
         }
 
         h1 {
-            color: #333;
+            color: var(--text);
             text-align: center;
             margin-bottom: 0.5rem;
             font-size: 2.5rem;
         }
 
         .subtitle {
-            color: #666;
+            color: var(--text-muted);
             text-align: center;
             margin-bottom: 3rem;
             font-size: 1rem;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 0.9rem;
+            font: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text);
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--text-faint);
+        }
+
+        .theme-toggle:focus-visible {
+            outline: 2px solid #1fc855;
+            outline-offset: 2px;
+        }
+
+        .theme-toggle svg {
+            width: 18px;
+            height: 18px;
+            display: block;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Sonne im Hellmodus, Mond im Dunkelmodus */
+        .theme-toggle .icon-moon { display: none; }
+        :root[data-theme="dark"] .theme-toggle .icon-sun { display: none; }
+        :root[data-theme="dark"] .theme-toggle .icon-moon { display: block; }
+
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]):not([data-theme="dark"]) .theme-toggle .icon-sun { display: none; }
+            :root:not([data-theme="light"]):not([data-theme="dark"]) .theme-toggle .icon-moon { display: block; }
         }
 
         .grid {
@@ -45,22 +151,21 @@
         }
 
         .icon-card {
-            background: white;
+            background: var(--card-bg);
             border-radius: 12px;
             padding: 1.5rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            border: 1px solid #ddd;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
         }
 
         .icon-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            box-shadow: var(--shadow-hover);
         }
 
         .icon-preview {
@@ -70,23 +175,34 @@
             align-items: center;
             justify-content: center;
             margin-bottom: 1rem;
-            background: #f5f5f5;
+            padding: 6px;
+            background: var(--tile-bg);
             border-radius: 8px;
-            overflow: auto;
+            color: var(--icon);
         }
 
-        .icon-preview img,
         .icon-preview svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .icon-preview img {
             max-width: 100%;
             max-height: 100%;
             width: auto;
             height: auto;
         }
 
+        /* Notnagel: liegt das SVG als <img> vor, greift kein currentColor.
+           Dann bleibt die Kachel hell, damit schwarze Icons sichtbar sind. */
+        .icon-preview.is-raster {
+            background: #f5f5f5;
+        }
+
         .icon-name {
             font-size: 0.95rem;
             font-weight: 600;
-            color: #333;
+            color: var(--text);
             text-align: center;
             word-break: break-word;
             margin-bottom: 0.5rem;
@@ -94,27 +210,36 @@
 
         .icon-size {
             font-size: 0.8rem;
-            color: #999;
+            color: var(--text-faint);
             text-align: center;
         }
 
         .stats {
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
+            background: var(--card-bg);
+            color: var(--text-muted);
+            border: 1px solid var(--border);
             padding: 1rem;
             border-radius: 8px;
             text-align: center;
             margin-top: 2rem;
-            backdrop-filter: blur(10px);
+        }
+
+        .stats strong {
+            color: var(--text);
         }
 
         .stats p {
             margin: 0.25rem 0;
         }
 
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; }
+        }
+
         @media (max-width: 600px) {
             h1 {
                 font-size: 1.8rem;
+                margin-top: 2.5rem;
             }
 
             .grid {
@@ -134,6 +259,17 @@
     </style>
 </head>
 <body>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false">
+        <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79Z"/>
+        </svg>
+        <span id="themeLabel">Dunkel</span>
+    </button>
+
     <div class="container">
         <h1>icons4homey</h1>
         <p class="subtitle">Custom SVG Icons Collection</p>
@@ -146,9 +282,6 @@
     </div>
 
     <script>
-        const iconGrid = document.getElementById('iconGrid');
-        const totalCount = document.getElementById('totalCount');
-
         const icons = [
             'awtrix03.svg',
             'garbage_01.svg',
@@ -170,35 +303,143 @@
             'sun-moon02.svg'
         ];
 
-        let rendered = false;
+        /* ---------- Theme ---------- */
+
+        const THEME_KEY = 'icons4homey-theme';
+        const root = document.documentElement;
+        const darkMedia = window.matchMedia('(prefers-color-scheme: dark)');
+        const toggle = document.getElementById('themeToggle');
+        const themeLabel = document.getElementById('themeLabel');
+
+        function effectiveTheme() {
+            const explicit = root.dataset.theme;
+            if (explicit === 'dark' || explicit === 'light') return explicit;
+            return darkMedia.matches ? 'dark' : 'light';
+        }
+
+        function syncToggle() {
+            const dark = effectiveTheme() === 'dark';
+            toggle.setAttribute('aria-pressed', String(dark));
+            toggle.setAttribute('aria-label', dark ? 'Zu hellem Design wechseln' : 'Zu dunklem Design wechseln');
+            themeLabel.textContent = dark ? 'Hell' : 'Dunkel';
+        }
+
+        toggle.addEventListener('click', () => {
+            const next = effectiveTheme() === 'dark' ? 'light' : 'dark';
+            root.dataset.theme = next;
+            try { localStorage.setItem(THEME_KEY, next); } catch (e) {}
+            syncToggle();
+        });
+
+        // Systemwechsel nur folgen, solange nichts manuell gewaehlt wurde
+        darkMedia.addEventListener('change', () => {
+            if (!root.dataset.theme) syncToggle();
+        });
+
+        syncToggle();
+
+        /* ---------- Icons ---------- */
+
+        const BLACK = new Set(['#000', '#000000', 'black']);
+        // In <mask>/<clipPath>/<filter> ist Weiss die Maske selbst, kein Motiv
+        const SKIP_SUBTREE = new Set(['mask', 'clippath', 'filter', 'pattern', 'marker']);
+
+        function recolor(el) {
+            for (const attr of ['fill', 'stroke']) {
+                const value = el.getAttribute(attr);
+                if (!value) continue;
+                if (BLACK.has(value.trim().toLowerCase())) {
+                    // Inline-Style statt Attribut: schlaegt das Praesentationsattribut sicher
+                    el.style.setProperty(attr, 'currentColor');
+                }
+            }
+            for (const child of el.children) {
+                if (SKIP_SUBTREE.has(child.nodeName.toLowerCase())) continue;
+                recolor(child);
+            }
+        }
+
+        // IDs pro Icon eindeutig machen, sonst greifen url(#...)-Referenzen
+        // beim Inlining auf die gleichnamige ID des zuerst geladenen Icons
+        function namespaceIds(svg, prefix) {
+            const map = new Map();
+            svg.querySelectorAll('[id]').forEach(el => {
+                const oldId = el.id;
+                const newId = prefix + '-' + oldId;
+                map.set(oldId, newId);
+                el.id = newId;
+            });
+            if (!map.size) return;
+            svg.querySelectorAll('*').forEach(el => {
+                for (const attr of el.attributes) {
+                    if (!attr.value.includes('#')) continue;
+                    let next = attr.value;
+                    map.forEach((newId, oldId) => {
+                        next = next.split('url(#' + oldId + ')').join('url(#' + newId + ')');
+                        if (attr.name === 'href' || attr.name === 'xlink:href') {
+                            if (next === '#' + oldId) next = '#' + newId;
+                        }
+                    });
+                    if (next !== attr.value) attr.value = next;
+                }
+            });
+        }
+
+        async function inlineIcon(preview, file, index) {
+            const response = await fetch(encodeURIComponent(file), { cache: 'no-cache' });
+            if (!response.ok) throw new Error('HTTP ' + response.status);
+            const doc = new DOMParser().parseFromString(await response.text(), 'image/svg+xml');
+            if (doc.querySelector('parsererror') || doc.documentElement.nodeName !== 'svg') {
+                throw new Error('kein gueltiges SVG');
+            }
+            const svg = document.importNode(doc.documentElement, true);
+            if (!svg.getAttribute('viewBox')) throw new Error('keine viewBox');
+            svg.removeAttribute('width');
+            svg.removeAttribute('height');
+            svg.setAttribute('role', 'img');
+            svg.setAttribute('aria-label', file);
+            namespaceIds(svg, 'i' + index);
+            recolor(svg);
+            preview.replaceChildren(svg);
+        }
 
         function renderIcons() {
-            if (rendered) return;
-            rendered = true;
+            const iconGrid = document.getElementById('iconGrid');
+            iconGrid.replaceChildren();
 
-            iconGrid.innerHTML = '';
-
-            icons.forEach(icon => {
+            icons.forEach((icon, index) => {
                 const card = document.createElement('div');
                 card.className = 'icon-card';
-                card.innerHTML = `
-                    <div class="icon-preview">
-                        <img src="${encodeURIComponent(icon)}" alt="${icon}" loading="lazy">
-                    </div>
-                    <div class="icon-name">${icon}</div>
-                    <div class="icon-size">SVG</div>
-                `;
+
+                const preview = document.createElement('div');
+                preview.className = 'icon-preview';
+
+                const name = document.createElement('div');
+                name.className = 'icon-name';
+                name.textContent = icon;
+
+                const size = document.createElement('div');
+                size.className = 'icon-size';
+                size.textContent = 'SVG';
+
+                card.append(preview, name, size);
                 iconGrid.appendChild(card);
+
+                // Inline, damit currentColor dem Theme folgt; sonst als <img>
+                inlineIcon(preview, icon, index).catch(() => {
+                    const img = document.createElement('img');
+                    img.src = encodeURIComponent(icon);
+                    img.alt = icon;
+                    img.loading = 'lazy';
+                    preview.classList.add('is-raster');
+                    preview.replaceChildren(img);
+                });
             });
 
-            totalCount.textContent = icons.length;
+            document.getElementById('totalCount').textContent = icons.length;
         }
 
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', renderIcons);
-        } else {
-            renderIcons();
-        }
+        renderIcons();
     </script>
 </body>
 </html>
